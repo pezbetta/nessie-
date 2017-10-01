@@ -3,7 +3,7 @@ import logging
 from telegram.ext import Updater, CommandHandler
 from secrets.secrets import TELEGRAM_TOKEN
 
-from bot_handlers import HANDLERS
+from bot_handlers.bot_handlers import HANDLERS
 
 
 updater = Updater(token=TELEGRAM_TOKEN)

@@ -1,10 +1,11 @@
 from tplink.pyHS100.smartbulb import SmartBulb
 from tplink.pyHS100.smartplug import SmartPlug
-from telegram.ext import CommandHandler
 
 from secrets.secrets import SAMRT_BULB_IP, SAMRT_PLUG_IP
+from bot_handlers.handler_decorator import command_handler
 
 
+@command_handler('luz')
 def lights(bot, update, args):
     bulb = SmartBulb(SAMRT_BULB_IP)
     print('user:{} text:{} args:{}'.format(update.message.chat_id, update.message.text, args))
@@ -19,10 +20,9 @@ def lights(bot, update, args):
         bulb.brightness = int(args[0])
         bot.send_message(chat_id=update.message.chat_id, text='He ajustado la luz al {}%'.format(args[0]))
 
-lights_handler = CommandHandler('luz', lights, pass_args=True)
 
-
-def tv(bot, update):
+@command_handler('tv')
+def tv(bot, update, args):
     plug = SmartPlug(SAMRT_PLUG_IP)
     print('user:{} text:{}'.format(update.message.chat_id, update.message.text))
     if plug.state == 'ON':
@@ -31,5 +31,3 @@ def tv(bot, update):
     else:
         plug.state = 'ON'
         bot.send_message(chat_id=update.message.chat_id, text='He encendido la tv')
-
-tv_handler = CommandHandler('tv', tv, pass_args=False)
